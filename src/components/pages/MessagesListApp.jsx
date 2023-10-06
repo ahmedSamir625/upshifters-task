@@ -1,5 +1,5 @@
 import { useQuery, QueryErrorResetBoundary } from "react-query";
-import fakeAPI from "../../utils/fakeAPI";
+import { getData } from "../../utils/fakeAPI";
 import Loading from "../atoms/Loading";
 import Error from "../atoms/Error";
 import FiltersSection from "../layouts/FiltersSection";
@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { setInitialMessages } from "../../redux/reducers/messagesSlice";
 
 const MessagesListApp = () => {
-  const { data, isLoading, error, isError, refetch } = useQuery("posts", fakeAPI);
+  const { data, isLoading, error, isError, refetch } = useQuery("posts", getData);
   const dispatch = useDispatch();
 
   if (data?.messages) {
