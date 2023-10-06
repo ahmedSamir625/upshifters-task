@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Message from "../molecules/Message";
-import SortMenu from "../molecules/SortMenu";
+import SortMenu from "../organizms/SortMenu";
 
 const AllMessagesSection = () => {
   const messages = useSelector((state) => state.data.displayedMessages);
