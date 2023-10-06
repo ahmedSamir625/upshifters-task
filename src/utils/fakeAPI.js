@@ -12,11 +12,6 @@ export const getData = () => {
 };
 
 export const searchMessages = (text, option) => {
-  let messages = [];
-
-  console.log("text :", text);
-  console.log("type :", option);
-
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (option === "users") {
