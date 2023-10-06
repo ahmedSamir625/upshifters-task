@@ -24,7 +24,7 @@ const SearchBox = ({
   const dispatch = useDispatch();
 
   const { data, isLoading, isError, isSuccess } = useQuery(
-    ["products", searchText],
+    ["messages", "search", searchText],
     () => searchMessages(searchText, selectedOption.type),
     {
       enabled: !!searchText,

@@ -8,6 +8,7 @@ const initialState = {
   displayedMessages: [],
   searchResultMessages: [],
   searchResultLoading: false,
+  numberOfPages: 0,
 };
 
 export const messagesSlice = createSlice({
@@ -40,9 +41,20 @@ export const messagesSlice = createSlice({
     setSearchResultsLoading: (state, { payload }) => {
       state.searchResultLoading = payload;
     },
+
+    setNumberOfPages: (state, { payload }) => {
+      state.numberOfPages = payload;
+    },
   },
 });
 
-export const { setInitialMessages, sortMessages, setSearchResultMessages ,setSearchResultsLoading} = messagesSlice.actions;
+export const {
+  setInitialMessages,
+  sortMessages,
+  setSearchResultMessages,
+  setSearchResultsLoading,
+  setNumberOfPages,
+  setMessagesLoading,
+} = messagesSlice.actions;
 
 export default messagesSlice.reducer;

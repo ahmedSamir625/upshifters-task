@@ -4,15 +4,24 @@ import Loading from "../atoms/Loading";
 import Error from "../atoms/Error";
 import FiltersSection from "../layouts/FiltersSection";
 import AllMessagesSection from "../layouts/AllMessagesSection";
-import { useDispatch } from "react-redux";
-import { setInitialMessages } from "../../redux/reducers/messagesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setInitialMessages,
+  setMessagesLoading,
+  setNumberOfPages,
+} from "../../redux/reducers/messagesSlice";
+import { MESSAGES_PER_PAGE } from "../../constants";
+import Pagination from "../organizms/Pagination";
 
 const MessagesListApp = () => {
-  const { data, isLoading, error, isError, refetch } = useQuery("posts", getData);
+  const { data, isLoading, error, isError, refetch } = useQuery(["messages", 1], () =>
+    getData(1, MESSAGES_PER_PAGE)
+  );
   const dispatch = useDispatch();
 
   if (data?.messages) {
     dispatch(setInitialMessages(data.messages));
+    dispatch(setNumberOfPages(data.pages));
   }
 
   return (
@@ -38,6 +47,7 @@ const MessagesListApp = () => {
               <>
                 <FiltersSection />
                 <AllMessagesSection />
+                <Pagination />
               </>
             )
           )}
