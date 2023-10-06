@@ -20,33 +20,3 @@ export const sortMessagesByPriority = (messages) => {
   });
   return sortedMessages;
 };
-
-const sortText = (type, messages) => {
-  let sortedMessages = messages.slice();
-
-  return sortedMessages.sort((a, b) => {
-    if (a[type] > b[type]) {
-      return -1;
-    }
-    if (a[type] < b[type]) {
-      return 1;
-    }
-    return 0;
-  });
-};
-
-export const sortMessagesByPlatform = (messages) => {
-  return sortText("platform", messages);
-};
-
-export const sortMessagesByUserSentiment = (messages) => {
-  return sortText("sentiment", messages);
-};
-
-export const sortMessagesByRepliedTo = (messages) => {
-  let sortedMessages = messages.slice();
-
-  return sortedMessages.sort((a, b) => {
-    return a.replied_to === b.replied_to ? 0 : a.replied_to ? -1 : 1;
-  });
-};

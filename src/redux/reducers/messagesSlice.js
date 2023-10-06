@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  sortMessagesByPlatform,
-  sortMessagesByPriority,
-  sortMessagesByRepliedTo,
-  sortMessagesByUserSentiment,
-} from "../../utils/sortMessages";
+import _ from "lodash";
+
+import { sortMessagesByPriority } from "../../utils/sortMessages";
 
 const initialState = {
   messages: [],
@@ -26,11 +23,11 @@ export const messagesSlice = createSlice({
       } else if (payload === "priority") {
         state.displayedMessages = sortMessagesByPriority(state.messages);
       } else if (payload === "sentiment") {
-        state.displayedMessages = sortMessagesByUserSentiment(state.messages);
+        state.displayedMessages = _.orderBy(state.messages, ["sentiment"], ["desc"]);
       } else if (payload === "replied_to") {
-        state.displayedMessages = sortMessagesByRepliedTo(state.messages);
+        state.displayedMessages = _.orderBy(state.messages, ["replied_to"], ["desc"]);
       } else if (payload === "platform") {
-        state.displayedMessages = sortMessagesByPlatform(state.messages);
+        state.displayedMessages = _.orderBy(state.messages, ["platform"]);
       }
     },
   },
