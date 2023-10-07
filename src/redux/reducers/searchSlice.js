@@ -5,6 +5,8 @@ const initialState = {
   searchResultsOpen: false,
   selectedOption: { type: "all", name: "الكل" },
   searchBoxClicks: 0,
+  searchResultMessages: [],
+  searchResultLoading: false,
 };
 
 export const searchSlice = createSlice({
@@ -24,6 +26,14 @@ export const searchSlice = createSlice({
     incrementSearchBoxClicks: (state) => {
       state.searchBoxClicks = state.searchBoxClicks += 1;
     },
+
+    setSearchResultMessages: (state, { payload }) => {
+      state.searchResultMessages = payload;
+    },
+
+    setSearchResultsLoading: (state, { payload }) => {
+      state.searchResultLoading = payload;
+    },
   },
 });
 
@@ -32,6 +42,8 @@ export const {
   setSearchResultsOpen,
   setSelectedOption,
   incrementSearchBoxClicks,
+  setSearchResultsLoading,
+  setSearchResultMessages,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

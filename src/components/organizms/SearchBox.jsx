@@ -5,15 +5,14 @@ import { debounce } from "lodash";
 import { useState, useEffect } from "react";
 import { searchMessages } from "../../utils/fakeAPI";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setSearchResultMessages,
-  setSearchResultsLoading,
-} from "../../redux/reducers/messagesSlice";
+
 
 import {
   incrementSearchBoxClicks,
   setSearchOptionsOpen,
   setSearchResultsOpen,
+  setSearchResultMessages,
+  setSearchResultsLoading,
 } from "../../redux/reducers/searchSlice";
 
 const SearchBox = ({ inputRef }) => {
@@ -23,7 +22,6 @@ const SearchBox = ({ inputRef }) => {
   const debouncedSearch = debounce(setSearchText, 500);
 
   const searchOptionsMenuOpen = useSelector((state) => state.search.searchOptionsOpen);
-  const searchResultsMenuOpen = useSelector((state) => state.search.searchResultsOpen);
   const selectedOption = useSelector((state) => state.search.selectedOption);
   const searchBoxClicks = useSelector((state) => state.search.searchBoxClicks);
 
@@ -58,7 +56,6 @@ const SearchBox = ({ inputRef }) => {
     } else if (isSuccess) {
       dispatch(setSearchResultsLoading(false));
       if (data?.messages) {
-        console.log("data : ", data);
         dispatch(setSearchResultMessages(data.messages));
       }
     }

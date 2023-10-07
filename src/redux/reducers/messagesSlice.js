@@ -6,8 +6,6 @@ import { sortMessagesByPriority } from "../../utils/sortMessages";
 const initialState = {
   messages: [],
   displayedMessages: [],
-  searchResultMessages: [],
-  searchResultLoading: false,
   numberOfPages: 0,
 };
 
@@ -34,27 +32,13 @@ export const messagesSlice = createSlice({
       }
     },
 
-    setSearchResultMessages: (state, { payload }) => {
-      state.searchResultMessages = payload;
-    },
-
-    setSearchResultsLoading: (state, { payload }) => {
-      state.searchResultLoading = payload;
-    },
-
     setNumberOfPages: (state, { payload }) => {
       state.numberOfPages = payload;
     },
   },
 });
 
-export const {
-  setInitialMessages,
-  sortMessages,
-  setSearchResultMessages,
-  setSearchResultsLoading,
-  setNumberOfPages,
-  setMessagesLoading,
-} = messagesSlice.actions;
+export const { setInitialMessages, sortMessages, setNumberOfPages, setMessagesLoading } =
+  messagesSlice.actions;
 
 export default messagesSlice.reducer;
