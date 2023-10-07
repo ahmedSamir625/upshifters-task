@@ -2,14 +2,10 @@ import { useQuery, QueryErrorResetBoundary } from "react-query";
 import { getData } from "../../utils/fakeAPI";
 import Loading from "../atoms/Loading";
 import Error from "../atoms/Error";
-import FiltersSection from "../layouts/FiltersSection";
+import SearchSection from "../layouts/SearchSection";
 import AllMessagesSection from "../layouts/AllMessagesSection";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setInitialMessages,
-  setMessagesLoading,
-  setNumberOfPages,
-} from "../../redux/reducers/messagesSlice";
+import { useDispatch } from "react-redux";
+import { setInitialMessages, setNumberOfPages } from "../../redux/reducers/messagesSlice";
 import { MESSAGES_PER_PAGE } from "../../constants";
 import Pagination from "../organizms/Pagination";
 
@@ -45,7 +41,7 @@ const MessagesListApp = () => {
           ) : (
             data && (
               <>
-                <FiltersSection />
+                <SearchSection />
                 <AllMessagesSection />
                 <Pagination />
               </>

@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setInitialMessages,
-  setNumberOfPages,
-} from "../../redux/reducers/messagesSlice";
+import { setInitialMessages, setNumberOfPages } from "../../redux/reducers/messagesSlice";
 import { getData } from "../../utils/fakeAPI";
 import { MESSAGES_PER_PAGE } from "../../constants";
 import LoadingOverlay from "../atoms/LoadingOverlay";
@@ -25,7 +22,6 @@ const Pagination = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       dispatch(setInitialMessages(data.messages));
       dispatch(setNumberOfPages(data.pages));
     }

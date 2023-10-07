@@ -4,24 +4,28 @@ import { useQuery } from "react-query";
 import { debounce } from "lodash";
 import { useState, useEffect } from "react";
 import { searchMessages } from "../../utils/fakeAPI";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSearchResultMessages,
   setSearchResultsLoading,
 } from "../../redux/reducers/messagesSlice";
 
-const SearchBox = ({
-  selectedOption,
-  onSearchBoxClicked,
-  onSearchMenuClicked,
-  showSearchOptionsMenu,
-  inputRef,
-  isSearcResultsMenuOpen,
-  showSearchResultMenu,
-}) => {
+import {
+  incrementSearchBoxClicks,
+  setSearchOptionsOpen,
+  setSearchResultsOpen,
+} from "../../redux/reducers/searchSlice";
+
+const SearchBox = ({ inputRef }) => {
+  const dispatch = useDispatch();
+
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = debounce(setSearchText, 500);
-  const dispatch = useDispatch();
+
+  const searchOptionsMenuOpen = useSelector((state) => state.search.searchOptionsOpen);
+  const searchResultsMenuOpen = useSelector((state) => state.search.searchResultsOpen);
+  const selectedOption = useSelector((state) => state.search.selectedOption);
+  const searchBoxClicks = useSelector((state) => state.search.searchBoxClicks);
 
   const { data, isLoading, isError, isSuccess } = useQuery(
     ["messages", "search", searchText],
@@ -50,16 +54,37 @@ const SearchBox = ({
     }
   }, [data, isLoading, isError, isSuccess, dispatch]);
 
+  const handleSearchBoxClicked = (e) => {
+    if (searchBoxClicks === 0 && !searchOptionsMenuOpen) {
+      dispatch(setSearchOptionsOpen(true));
+    } else if (searchBoxClicks === 0 && searchOptionsMenuOpen) {
+      dispatch(setSearchOptionsOpen(false));
+
+      dispatch(setSearchResultsOpen(true));
+    } else {
+      dispatch(setSearchOptionsOpen(false));
+
+      dispatch(setSearchResultsOpen(true));
+    }
+    dispatch(incrementSearchBoxClicks());
+  };
+
+  const handleSearchOptionsMenuClick = (e) => {
+    e.stopPropagation();
+    dispatch(setSearchResultsOpen(false));
+    dispatch(setSearchOptionsOpen(!searchOptionsMenuOpen));
+  };
+
   return (
     <div
       className="border border-gray-300 rounded-lg p-1 flex items-center md:w-2/3 hover:cursor-pointer"
-      onClick={(e) => onSearchBoxClicked(e)}
+      onClick={(e) => handleSearchBoxClicked(e)}
     >
       <div
         className="flex items-center rounded-lg hover:bg-gray-100 select-none"
-        onClick={(e) => onSearchMenuClicked(e)}
+        onClick={(e) => handleSearchOptionsMenuClick(e)}
       >
-        {showSearchOptionsMenu ? (
+        {searchOptionsMenuOpen ? (
           <BsChevronDown className="mr-4" />
         ) : (
           <BsChevronUp className="mr-4" />
@@ -73,10 +98,7 @@ const SearchBox = ({
         ref={inputRef}
         onChange={handleInputChange}
       />
-      <SearchIcon
-        isSearcResultsMenuOpen={isSearcResultsMenuOpen}
-        showSearchResultMenu={showSearchResultMenu}
-      />
+      <SearchIcon />
     </div>
   );
 };
