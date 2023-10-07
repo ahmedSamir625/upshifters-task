@@ -2,15 +2,6 @@ import { ERROR_MESSAGE } from "../constants";
 import data from "./data.json";
 import _ from "lodash";
 
-// export const getData = (page, limit) => {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       resolve(data);
-//       reject({ message: ERROR_MESSAGE });
-//     }, 1000);
-//   });
-// };
-
 export const getData = (page, limit) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -48,7 +39,7 @@ export const searchMessages = (text, option) => {
           messages: _.unionBy(
             _.filter(data.messages, (msg) => _.includes(_.toLower(msg.user_name), _.toLower(text))),
             _.filter(data.messages, (msg) => _.includes(_.toLower(msg.message), _.toLower(text))),
-            "id" 
+            "id"
           ),
         });
       }

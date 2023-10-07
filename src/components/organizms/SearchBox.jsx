@@ -42,13 +42,23 @@ const SearchBox = ({ inputRef }) => {
   };
 
   useEffect(() => {
+    setSearchText("");
+    if (inputRef && inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }, [selectedOption]);
+
+  useEffect(() => {
     if (isLoading) {
       dispatch(setSearchResultsLoading(true));
+      dispatch(setSearchOptionsOpen(false));
+      dispatch(setSearchResultsOpen(true));
     } else if (isError) {
       dispatch(setSearchResultsLoading(false));
     } else if (isSuccess) {
       dispatch(setSearchResultsLoading(false));
       if (data?.messages) {
+        console.log("data : ", data);
         dispatch(setSearchResultMessages(data.messages));
       }
     }
@@ -71,6 +81,7 @@ const SearchBox = ({ inputRef }) => {
 
   const handleSearchOptionsMenuClick = (e) => {
     e.stopPropagation();
+    dispatch(incrementSearchBoxClicks());
     dispatch(setSearchResultsOpen(false));
     dispatch(setSearchOptionsOpen(!searchOptionsMenuOpen));
   };
